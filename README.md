@@ -1,0 +1,3 @@
+# Prometheus Alert Fixer Agent (PAFA)
+
+This Python application is designed to seamlessly integrate with a Kube-Prometheus cluster. Deployed within the cluster, the app actively listens for incoming alerts and employs advanced techniques, including Large Language Models (LLM) and prompt engineering, to swiftly analyze and formulate resolutions. The end user is then promptly notified via Microsoft Teams, ensuring a streamlined and efficient alert management process.
