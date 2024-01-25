@@ -103,6 +103,8 @@ celerybeat.pid
 *.sage.py
 
 # Environments
+.other/
+openai/
 .env
 .venv
 env/
