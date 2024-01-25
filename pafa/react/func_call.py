@@ -1,5 +1,6 @@
 import json
 import openai
+from openai import OpenAI
 from typing import List, Dict, Union
 
 # TODO: Change deprecated function to tools in every name and OpenAI-API usage
@@ -22,14 +23,15 @@ class FunctionCall:
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": message},
             ]
-            response = openai.ChatCompletion.create(
+            client = OpenAI()
+            response = client.chat.completions.create(
                 model=model,
                 messages=messages,
                 functions=functions,
-                function_call=function_call if function_call else "auto",
+                function_call=function_call if function_call else "auto"
             )
-            
-            function_call = response.choices[0].get("message").get("function_call")
+            print(response)
+            function_call = response.choices[0].message.function_call
             function_name = function_call.get("name")
             function_args = json.loads(function_call.get("arguments"))
             return function_name, function_args
@@ -46,17 +48,18 @@ class FunctionCall:
             )
 
 
-# if __name__ == "__main__":
-#     from config.config import OPENAI_API_KEY
-#     from react.prompt import ReAct_Prompt
-#     from react.schemas import Functions
+if __name__ == "__main__":
+    from pafa.config.config import OPENAI_API_KEY
+    from pafa.react.prompt import ReAct_Prompt
+    from pafa.react.schemas import Functions
 
-#     fc = FunctionCall(OPENAI_API_KEY)
-#     fn, fa = fc(
-#         "Question: `How many parameters does the Bloom model have?`",
-#         ReAct_Prompt,
-#         Functions.functions,
-#         "gpt-3.5-turbo-16k",
-#     )
-#     print(f"Function Name: {fn}")
-#     print(f"Function Arguments: {json.dumps(fa, indent=4)}")
+    fc = FunctionCall(OPENAI_API_KEY)
+    print("here")
+    fn, fa = fc(
+        "Question: `How many vowels are in the first magic word of this sentence: `Hello, please help me my wauwau`",
+        ReAct_Prompt,
+        Functions.functions,
+        "gpt-3.5-turbo-16k",
+    )
+    print(f"Function Name: {fn}")
+    print(f"Function Arguments: {json.dumps(fa, indent=4)}")

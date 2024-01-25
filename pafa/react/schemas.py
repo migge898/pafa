@@ -39,7 +39,6 @@ class FinalAnswer(BaseModel):
 class Exit(BaseModel):
     exit: bool
 
-
 class Functions:
     functions = [
         {

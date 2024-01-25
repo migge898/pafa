@@ -2,8 +2,8 @@ from enum import Enum
 import json
 from pydantic import BaseModel
 
-from react.func_call import FunctionCall
-from config.config import OPENAI_API_KEY
+from pafa.react.func_call import FunctionCall
+from pafa.config.config import OPENAI_API_KEY
 
 if OPENAI_API_KEY is None or OPENAI_API_KEY == "":
     raise Exception("OPENAI_API_KEY not set")
