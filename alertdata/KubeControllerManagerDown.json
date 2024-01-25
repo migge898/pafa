@@ -1,0 +1,14 @@
+{
+    "labels": {
+        "alertname": "KubeControllerManagerDown",
+        "severity": "critical"
+    },
+    "annotations": {
+        "description": "KubeControllerManager has disappeared from Prometheus target discovery.",
+        "runbook_url": "https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubecontrollermanagerdown",
+        "summary": "Target disappeared from Prometheus target discovery."
+    },
+    "state": "firing",
+    "activeAt": "2023-12-20T21:57:52Z",
+    "value": "1e+00"
+}

@@ -1,0 +1,18 @@
+{
+    "labels": {
+        "alertname": "InfoInhibitor",
+        "alertstate": "firing",
+        "container": "config-reloader",
+        "namespace": "monitoring",
+        "pod": "prometheus-k8s-1",
+        "severity": "none"
+    },
+    "annotations": {
+        "description": "This is an alert that is used to inhibit info alerts.\nBy themselves, the info-level alerts are sometimes very noisy, but they are relevant when combined with\nother alerts.\nThis alert fires whenever there's a severity=\"info\" alert, and stops firing when another alert with a\nseverity of 'warning' or 'critical' starts firing on the same namespace.\nThis alert should be routed to a null receiver and configured to inhibit alerts with severity=\"info\".\n",
+        "runbook_url": "https://runbooks.prometheus-operator.dev/runbooks/general/infoinhibitor",
+        "summary": "Info-level alert inhibition."
+    },
+    "state": "firing",
+    "activeAt": "2023-12-21T09:48:49.478484019Z",
+    "value": "1e+00"
+}

@@ -1,0 +1,14 @@
+{
+    "labels": {
+        "alertname": "KubeSchedulerDown",
+        "severity": "critical"
+    },
+    "annotations": {
+        "description": "KubeScheduler has disappeared from Prometheus target discovery.",
+        "runbook_url": "https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubeschedulerdown",
+        "summary": "Target disappeared from Prometheus target discovery."
+    },
+    "state": "firing",
+    "activeAt": "2023-12-20T21:57:48Z",
+    "value": "1e+00"
+}

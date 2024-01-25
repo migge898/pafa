@@ -1,0 +1,17 @@
+{
+    "labels": {
+        "alertname": "CPUThrottlingHigh",
+        "container": "config-reloader",
+        "namespace": "monitoring",
+        "pod": "alertmanager-main-0",
+        "severity": "info"
+    },
+    "annotations": {
+        "description": "45.45% throttling of CPU in namespace monitoring for container config-reloader in pod alertmanager-main-0.",
+        "runbook_url": "https://runbooks.prometheus-operator.dev/runbooks/kubernetes/cputhrottlinghigh",
+        "summary": "Processes experience elevated CPU throttling."
+    },
+    "state": "firing",
+    "activeAt": "2023-12-21T09:33:16.095364684Z",
+    "value": "4.545454545454546e-01"
+}
