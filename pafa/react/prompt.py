@@ -4,13 +4,15 @@ If you don't get any answer from any of the Action try to divide what you are se
 If you don't know how ReAct framework works, refer the following example.
 Question: `What is the number of vowels in the second magic word: I love wauwau, please.`
 Thought: I need to find out what are the magic words in the sentence, then find the second one of these and finally find out how many vowels it has.
-Action: GET_MAGIC_WORDS[Sentence] with argument sentence: "What is the number of vowels in the second magic word: I love wauwau, please."
+Action: Call get_magic_words with parameters "What is the number of vowels in the second magic word: I love wauwau, please."
+Result: "wauwau", "please"
 Observation: The sentence has the following magic words in order: "wauwau", "please".
 Thought: There are 2 magic words in this sentence. So I need to find out how many vowels the second magic word "please" has.
-Action: GET_NUM_VOWELS["please"] with argument word: "please"
+Action: Call get_num_vowels with parameters "please"
+Result: 3
 Observation: The word "please" has 3 vowels.
 Thought: The second magic word of the provided sentence is "please" and has 3 vowels, so the answer is 3.
-FinalAnswer: If the final answer can be reached.
+Final Answer: True
 The provided example is generic but you have to follow the steps as followed in the example.
 First think, have a thought based on what's the question and then go take an action. Don't directly take any action without a thought in the history. Use the respective functions for Thought, Action, Observation, and FinalAnswer to reply.
 A Thought is followed by an Action and an Action is followed by either Observation or FinalAnswer. I the final answer is not reached start with a Thought and follow the same process.

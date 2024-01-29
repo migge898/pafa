@@ -1,5 +1,7 @@
+import json
 from typing import List, Union
 from pydantic import BaseModel
+from instructor import OpenAISchema
 from enum import Enum
 
 
@@ -11,7 +13,7 @@ class Actions(Enum):
     SEARCH_KB = "SearchKB"
 
 
-class Action(BaseModel):
+class Action(OpenAISchema):
     """Schema for Action takes the name of the action
     as action_type and argument for that action as search_text
     """
@@ -20,50 +22,54 @@ class Action(BaseModel):
     search_text: str
 
 
-class Thought(BaseModel):
+class Thought(OpenAISchema):
     """Thought scheama contains text for the thought"""
 
     thought_text: str
 
 
-class Observation(BaseModel):
+class Observation(OpenAISchema):
     """Observation schema contains text for the observation being made"""
 
     observation_text: str
 
 
-class FinalAnswer(BaseModel):
+class FinalAnswer(OpenAISchema):
     reached_final_answer: bool
 
 
-class Exit(BaseModel):
+class Exit(OpenAISchema):
     exit: bool
 
 class Functions:
-    functions = [
+    functions = [ 
         {
             "name": "Action",
             "description": "Search for a particular text in the knowledge base.",
-            "parameters": Action.schema(),
+            "parameters": Action.model_json_schema(),
         },
         {
             "name": "Thought",
             "description": "Generate a thought text with past history.",
-            "parameters": Thought.schema(),
+            "parameters": Thought.model_json_schema(),
         },
         {
             "name": "Observation",
             "description": "Generate an observation text with past history.",
-            "parameters": Observation.schema(),
+            "parameters": Observation.model_json_schema(),
         },
         {
             "name": "FinalAnswer",
             "description": "Based on the history tell if the final answer can be reached",
-            "parameters": FinalAnswer.schema(),
+            "parameters": FinalAnswer.model_json_schema(),
         },
         {
             "name": "Exit",
             "description": "Exit the process",
-            "parameters": Exit.schema(),
+            "parameters": Exit.model_json_schema(),
         },
     ]
+
+if __name__ == "__main__":
+    print(json.dumps(Functions.functions, indent=4))
+    exit()

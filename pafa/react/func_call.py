@@ -5,6 +5,7 @@ from typing import List, Dict, Union
 
 # TODO: Change deprecated function to tools in every name and OpenAI-API usage
 
+
 class FunctionCall:
     def __init__(self, api_key: str):
         openai.api_key = api_key
@@ -28,7 +29,7 @@ class FunctionCall:
                 model=model,
                 messages=messages,
                 functions=functions,
-                function_call=function_call if function_call else "auto"
+                function_call=function_call if function_call else "auto",
             )
             print(response)
             function_call = response.choices[0].message.function_call
@@ -54,7 +55,10 @@ if __name__ == "__main__":
     from pafa.react.schemas import Functions
 
     fc = FunctionCall(OPENAI_API_KEY)
-    print("here")
+    func_schema = Functions.functions
+    # convert to json
+    print(json.dumps(func_schema, indent=4))
+    exit()
     fn, fa = fc(
         "Question: `How many vowels are in the first magic word of this sentence: `Hello, please help me my wauwau`",
         ReAct_Prompt,
