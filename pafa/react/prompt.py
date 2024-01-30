@@ -1,4 +1,4 @@
-ReAct_Prompt = """Using the ReAct framework, please provide reasoning traces and task-specific actions when answering the following question. Your only actions are GET_MAGIC_WORDS[Sentence] and GET_NUM_VOWELS[WORD]. Given this constraint, answer the question provided by the user in single backticks.
+ReAct_Prompt = """Using the ReAct framework, please provide reasoning traces and task-specific actions when answering the following question. Your only actions are get_magic_words[Sentence] and get_num_vowels[WORD]. Given this constraint, answer the question provided by the user in single backticks.
 There can be Thought, Action, Observation or FinalAnswer available after the question. So please do not to repeat a same Thought or Observation. Do not repeat the same search text for the action. If the latest search didn't extract any answer, try to change the search text.
 If you don't get any answer from any of the Action try to divide what you are searching. Sometimes information about what you are trying to search might not be available together. You might need to go more granular.
 If you don't know how ReAct framework works, refer the following example.
