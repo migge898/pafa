@@ -3,95 +3,7 @@ import json
 import os
 import random
 
-DEFAULT_POD_LIST = {
-    "services": [
-        {
-            "name": "bugticketsvc-main-0",
-            "ready": "2/2",
-            "status": "Running",
-            "restarts": 0,
-            "age": "9d",
-        },
-        {
-            "name": "bugticketsvc-main-1",
-            "ready": "2/2",
-            "status": "Running",
-            "restarts": 0,
-            "age": "9d",
-        },
-        {
-            "name": "bugticketsvc-main-2",
-            "ready": "2/2",
-            "status": "Running",
-            "restarts": 0,
-            "age": "9d",
-        },
-        {
-            "name": "paymentsvc-main-0",
-            "ready": "3/3",
-            "status": "Running",
-            "restarts": 0,
-            "age": "9d",
-        },
-        {
-            "name": "paymentsvc-main-1",
-            "ready": "1/1",
-            "status": "Running",
-            "restarts": 0,
-            "age": "9d",
-        },
-        {
-            "name": "userauthsvc-main-0",
-            "ready": "7/7",
-            "status": "Running",
-            "restarts": 0,
-            "age": "9d",
-        },
-        {
-            "name": "messagersvc-main-0",
-            "ready": "2/2",
-            "status": "Running",
-            "restarts": 0,
-            "age": "9d",
-        },
-        {
-            "name": "messagersvc-main-1",
-            "ready": "1/1",
-            "status": "Running",
-            "restarts": 0,
-            "age": "9d",
-        },
-        {
-            "name": "messagersvc-main-2",
-            "ready": "1/1",
-            "status": "Running",
-            "restarts": 0,
-            "age": "9d",
-        },
-        {
-            "name": "playerstatssvc-main-0",
-            "ready": "2/2",
-            "status": "Running",
-            "restarts": 0,
-            "age": "9d",
-        },
-        {
-            "name": "playerstatssvc-main-1",
-            "ready": "2/2",
-            "status": "Running",
-            "restarts": 0,
-            "age": "9d",
-        },
-        {
-            "name": "playerstatssvc-main-2",
-            "ready": "2/2",
-            "status": "Running",
-            "restarts": 0,
-            "age": "9d",
-        },
-    ]
-}
-
+from pafa.simulation.constants import Pairings, DEFAULT_POD_LIST
 
 def get_pods(namespace: str):
     pass
@@ -120,36 +32,18 @@ def generate_pod_log(
         return list(timestamps)
     def generate_level_message_pairs(pod_kind: str):
         result = []
-        # 90% of the time, the number of tickets is between 10 and 30, otherwise it's between 31 and 100
-        ticket_num = lambda: random.randint(10, 30) if random.random() < 0.9 else random.randint(31, 100)
-        tag = lambda: random.choice("paymentservice", "client", "launcher", "misc")
-        # cpu over 10, 20 or 30
-        cpu_usage = lambda: random.choice([10, 20, 30])
-        infos = lambda x: filter(lambda x: x[0] == "INFO", x)
-        warns = lambda x: filter(lambda x: x[0] == "WARN", x)
-        # returns a list of weights for the pairings like: 3 * [0.95] + 2 * [0.05] = [0.95, 0.95, 0.95, 0.05, 0.05]
-        weights_gen = lambda pairings, warn_weight: len(list(infos(pairings))) * [(1 - warn_weight)] + len(list(warns(pairings))) * [warn_weight]
         match pod_kind:
             case "bugticketsvc":
-                pairings = [
-                    ("INFO", f"{ticket_num()} new open tickets for tag: {tag()}"),
-                    ("INFO", f"{ticket_num()} tickets have been closed for tag: {tag()}"),
-                    ("INFO", f"{ticket_num()// 3} tickets have been reopened for tag: {tag()}"),
-                    ("INFO", f"{ticket_num()// 2} tickets have been assigned for tag: {tag()}"),
-                    ("INFO", f"{ticket_num()} tickets have been unassigned for tag: {tag()}"),
-                    ("INFO", f"{ticket_num()} tickets have been resolved for tag: {tag()}"),
-                    ("WARN", f"{ticket_num()// 5} tickets have not been resolved for more than 3 days: {tag()}"),
-                    ("WARN", f"CPU usage of this pod over {cpu_usage()}%."),
-                ]
-                result = random.choices(pairings, k=num_rows, weights=weights_gen(pairings, 0.05))
+                result = Pairings.generate_bug_ticket_svc(num_rows, 0.05)
             case "paymentsvc":
-                pass
+                result = Pairings.generate_payment_svc(num_rows, 0.05)
             case "userauthsvc":
-                pass
+                result = Pairings.generate_user_auth_svc(num_rows, 0.05)
             case "messagersvc":
-                pass
+                result = Pairings.generate_message_svc(num_rows, 0.05)
             case "playerstatssvc":
-                pass
+                result = Pairings.generate_player_stats_svc(num_rows, 0.05)
+        return result
 
     # bugticketsvc-main-0  ->  bugticketsvc
     pod_kind = pod.split("-")[0]
@@ -222,24 +116,5 @@ if __name__ == "__main__":
     #     start_time_millis="1706828197476",
     #     num_rows=3,
     # )
-    ticket_num = lambda: random.randint(10, 30) if random.random() < 0.9 else random.randint(31, 100)
-    tag = lambda: random.choice(["paymentservice", "client", "launcher", "misc"])
-    cpu_usage = lambda: random.choice([10, 20, 30])
-    infos = lambda x: filter(lambda x: x[0] == "INFO", x)
-    warns = lambda x: filter(lambda x: x[0] == "WARN", x)
-    # returns a list of weights for the pairings
-    weights_gen = lambda pairings, warn_weight: len(list(infos(pairings))) * [(1 - warn_weight)] + len(list(warns(pairings))) * [warn_weight]
-    pairings = [
-        ("INFO", f"{ticket_num()} new open tickets for tag: {tag()}"),
-        ("INFO", f"{ticket_num()} tickets have been closed for tag: {tag()}"),
-        ("INFO", f"{ticket_num()// 3} tickets have been reopened for tag: {tag()}"),
-        ("INFO", f"{ticket_num()// 2} tickets have been assigned for tag: {tag()}"),
-        ("INFO", f"{ticket_num()} tickets have been unassigned for tag: {tag()}"),
-        ("INFO", f"{ticket_num()} tickets have been resolved for tag: {tag()}"),
-        ("WARN", f"{ticket_num()// 5} tickets have not been resolved for more than 3 days: {tag()}"),
-        ("WARN", f"CPU usage of this pod over {cpu_usage()}%."),
-    ]
-    # result = random.choices(pairings, k=30, weights=[0.95, 0.05])
-    # [print(element) for element in result]
-    print(weights_gen(pairings, 0.05))
-    # filter pairings for warn
+    res = Pairings.generate_bug_ticket_svc(5, 0.05)
+    [print(x) for x in res]
