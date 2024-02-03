@@ -99,11 +99,7 @@ class Pairings:
     _tag = lambda: random.choice(["paymentservice", "client", "launcher", "misc"])
     # Cpu over 10, 20 or 30
     _cpu_usage = lambda: random.choice([10, 20, 30])
-
-    # infos = lambda x: list(filter(lambda x: x[0] == "INFO", x))
-    # warns = lambda x: list(filter(lambda x: x[0] == "WARN", x))
-    # returns a list of weights for the pairings like: 3 * [0.95] + 2 * [0.05] = [0.95, 0.95, 0.95, 0.05, 0.05]
-    # weights_gen = lambda pairings, warn_weight: len(infos(pairings)) * [(1 - warn_weight)] + len(warns(pairings)) * [warn_weight]
+    _message_text = lambda: random.choice(["New Skin", "Event starts soon", "Patchnotes"])
     @staticmethod
     def _infos(x):
         return list(filter(lambda y: y[0] == "INFO", x))
@@ -131,24 +127,53 @@ class Pairings:
         ("WARN", f"CPU usage of this pod over {_cpu_usage()}%."),
     ]
 
-    _PAYMENT_SVC = []
-    _USER_AUTH_SVC = []
-    _MESSAGE_SVC = []
-    _PLAYER_STATS_SVC = []
+    _PAYMENT_SVC = [
+        ("INFO", f"Payment received successfully for transaction id: {random.randint(1000, 9999)}"),
+        ("INFO", f"Payment received successfully for transaction id: {random.randint(1000, 9999)}"),
+        ("INFO", f"Payment received successfully for transaction id: {random.randint(1000, 9999)}"),
+        ("INFO", f"Payment cancelled for transaction id: {random.randint(1000, 9999)}"),
+        ("INFO", f"No anomalies detected for last transactions."),
+        ("WARN", f"Payment refunded for transaction id: {random.randint(1000, 9999)}"),
+        ("WARN", f"Payment processing time exceeded 5 seconds for transaction id: {random.randint(1000, 9999)}"),
+        ("WARN", f"CPU usage of this pod over {_cpu_usage()}%."),
+    ]
+    _USER_AUTH_SVC = [
+        ("INFO", f"User {_tag()} logged in."),
+        ("INFO", f"User {_tag()} logged out."),
+        ("INFO", f"User {_tag()} registered."),
+        ("INFO", f"User {_tag()} password changed."),
+        ("INFO", f"User {_tag()} password reset."),
+        ("WARN", f"User {_tag()} login failed."),
+        ("WARN", f"CPU usage of this pod over {_cpu_usage()}%."),
+    ]
+    _MESSENGER_SVC = [
+        ("INFO", f"Broadcasted message: {_message_text()}"),
+        ("INFO", f"New thread in forum created."),
+        ("INFO", f"New message in thread."),
+        ("INFO", f"Message sent to {_tag()}"),
+        ("INFO", f"Message received from {_tag()}"),
+        ("WARN", f"Received messages slightly below average of last day."),
+        ("WARN", f"CPU usage of this pod over {_cpu_usage()}%."),
+    ]
+    _PLAYER_STATS_SVC = [
+        ("INFO", f"Leaderboard updated with the latest players rankings."),
+        ("INFO", f"100 new players registered in last {random.randint(1, 10)} minutes."),
+        ("INFO", f"Player with id: {random.randint(1000, 9999)} has been banned."),
+        ("INFO", f"100 players checked stats in last {random.randint(1, 10)} minutes."),
+        ("WARN", f"Some stats are not updating properly."),
+        ("WARN", f"CPU usage of this pod over {_cpu_usage()}%."),
+    ]
 
     @staticmethod
     def generate_bug_ticket_svc(num_rows: int, warn_weight: float = 0.05):
-        weights = Pairings._weights_gen(Pairings._BUG_TICKET_SVC, warn_weight)
         return random.choices(
             Pairings._BUG_TICKET_SVC,
             k=num_rows,
-            weights=weights,
+            weights=Pairings._weights_gen(Pairings._BUG_TICKET_SVC, warn_weight),
         )
 
     @staticmethod
     def generate_payment_svc(num_rows: int, warn_weight: float = 0.05):
-        return ["generate_payment_svc not implemented" for _ in range(num_rows)]
-        raise NotImplementedError("generate_payment_svc not implemented")
         return random.choices(
             Pairings._PAYMENT_SVC,
             k=num_rows,
@@ -157,8 +182,6 @@ class Pairings:
 
     @staticmethod
     def generate_user_auth_svc(num_rows: int, warn_weight: float = 0.05):
-        return ["generate_user_auth_svc not implemented" for _ in range(num_rows)]
-        raise NotImplementedError("generate_user_auth_svc not implemented")
         return random.choices(
             Pairings._USER_AUTH_SVC,
             k=num_rows,
@@ -166,21 +189,17 @@ class Pairings:
         )
 
     @staticmethod
-    def generate_message_svc(num_rows: int, warn_weight: float = 0.05):
-        return ["generate_message_svc not implemented" for _ in range(num_rows)]
-        raise NotImplementedError("generate_message_svc not implemented")
+    def generate_messenger_svc(num_rows: int, warn_weight: float = 0.05):
         return random.choices(
-            Pairings._MESSAGE_SVC,
+            Pairings._MESSENGER_SVC,
             k=num_rows,
-            weights=Pairings()._weights_gen(Pairings._MESSAGE_SVC, warn_weight),
+            weights=Pairings()._weights_gen(Pairings._MESSENGER_SVC, warn_weight),
         )
 
     @staticmethod
     def generate_player_stats_svc(num_rows: int, warn_weight: float = 0.05):
-        return ["generate_player_stats_svc not implemented" for _ in range(num_rows)]
-        raise NotImplementedError("generate_player_stats_svc not implemented")
         return random.choices(
-            Pairings.PLAYER_STATS_SVC,
+            Pairings._PLAYER_STATS_SVC,
             k=num_rows,
             weights=Pairings()._weights_gen(Pairings._PLAYER_STATS_SVC, warn_weight),
         )
