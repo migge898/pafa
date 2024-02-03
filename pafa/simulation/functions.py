@@ -21,8 +21,12 @@ def get_pods(namespace: str):
         return f"Namespace {namespace} not found."
 
 
-def get_logs(pod: str):
-    pass
+def get_logs(pod: str, namespace: str):
+    try:
+        with open(f"simulated/namespaces/{namespace}/{pod}.txt", "r") as log_file:
+            return log_file.read()
+    except FileNotFoundError:
+        return f"Pod {pod} not found in namespace {namespace}."
 
 
 def generate_pod_log(pod: str, start_time_millis: int, num_rows: int):
@@ -30,8 +34,8 @@ def generate_pod_log(pod: str, start_time_millis: int, num_rows: int):
         timestamps = []
         current_time = start_time_millis
         for _ in range(num_rows):
-            # Every log entry differs between 1 and 10 seconds
-            delta = random.randint(1, 10) * 1000
+            # Every log entry differs between 1 and 10 minutes
+            delta = random.randint(1, 10) * 1000 * 60
             current_time += delta
             timestamps.append(current_time)
         # Converting timestamps to format like: "2024-01-22T18:44:03.692166958Z"
@@ -51,7 +55,7 @@ def generate_pod_log(pod: str, start_time_millis: int, num_rows: int):
             case "userauthsvc":
                 result = Pairings.generate_user_auth_svc(num_rows, 0.05)
             case "messengersvc":
-                result = Pairings.generate_message_svc(num_rows, 0.05)
+                result = Pairings.generate_messenger_svc(num_rows, 0.05)
             case "playerstatssvc":
                 result = Pairings.generate_player_stats_svc(num_rows, 0.05)
         return result
@@ -103,7 +107,7 @@ def generate_namespace(namespace: str, pod_list: dict = DEFAULT_POD_LIST):
     init_namespace()
     for pod in pod_list["services"]:
         # Calculate a random start time for the logs
-        start_time = time.time() + random.randint(1, 60000) * 1000
+        start_time = (time.time() + random.randint(1, 60000)) * 1000
         # Generate a random number of log entries
         num_rows = random.randint(5, 15)
         pod_log = generate_pod_log(pod["name"], start_time, num_rows)
@@ -131,11 +135,12 @@ def generate_alert(
 
 
 if __name__ == "__main__":
-    generate_alert(
-        description="BugTicketservice in namespace test-000 is using 65% of CPU.",
-        alertname="BugTicketServiceOverloaded",
-        namespace="test-000",
-        pod="bugticketsvc-main-0",
-        active_at_time="2023-12-21T09:33:16.095364684Z",
-    )
-    generate_namespace("test-000")
+    # generate_alert(
+    #     description="BugTicketservice in namespace test-000 is using 65% of CPU.",
+    #     alertname="BugTicketServiceOverloaded",
+    #     namespace="test-000",
+    #     pod="bugticketsvc-main-0",
+    #     active_at_time="2023-12-21T09:33:16.095364684Z",
+    # )
+    # generate_namespace("test-888")
+    print(get_logs("bugticketsvc-main-1", "test-888"))
