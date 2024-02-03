@@ -46,21 +46,21 @@ DEFAULT_POD_LIST = {
             "age": "9d",
         },
         {
-            "name": "messagersvc-main-0",
+            "name": "messengersvc-main-0",
             "ready": "2/2",
             "status": "Running",
             "restarts": 0,
             "age": "9d",
         },
         {
-            "name": "messagersvc-main-1",
+            "name": "messengersvc-main-1",
             "ready": "1/1",
             "status": "Running",
             "restarts": 0,
             "age": "9d",
         },
         {
-            "name": "messagersvc-main-2",
+            "name": "messengersvc-main-2",
             "ready": "1/1",
             "status": "Running",
             "restarts": 0,
@@ -147,6 +147,7 @@ class Pairings:
 
     @staticmethod
     def generate_payment_svc(num_rows: int, warn_weight: float = 0.05):
+        return ["generate_payment_svc not implemented" for _ in range(num_rows)]
         raise NotImplementedError("generate_payment_svc not implemented")
         return random.choices(
             Pairings._PAYMENT_SVC,
@@ -156,6 +157,7 @@ class Pairings:
 
     @staticmethod
     def generate_user_auth_svc(num_rows: int, warn_weight: float = 0.05):
+        return ["generate_user_auth_svc not implemented" for _ in range(num_rows)]
         raise NotImplementedError("generate_user_auth_svc not implemented")
         return random.choices(
             Pairings._USER_AUTH_SVC,
@@ -165,6 +167,7 @@ class Pairings:
 
     @staticmethod
     def generate_message_svc(num_rows: int, warn_weight: float = 0.05):
+        return ["generate_message_svc not implemented" for _ in range(num_rows)]
         raise NotImplementedError("generate_message_svc not implemented")
         return random.choices(
             Pairings._MESSAGE_SVC,
@@ -174,6 +177,7 @@ class Pairings:
 
     @staticmethod
     def generate_player_stats_svc(num_rows: int, warn_weight: float = 0.05):
+        return ["generate_player_stats_svc not implemented" for _ in range(num_rows)]
         raise NotImplementedError("generate_player_stats_svc not implemented")
         return random.choices(
             Pairings.PLAYER_STATS_SVC,
