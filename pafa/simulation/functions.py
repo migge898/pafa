@@ -108,8 +108,7 @@ def generate_namespace(namespace: str, pod_list: dict = DEFAULT_POD_LIST):
     for pod in pod_list["services"]:
         # Calculate a random start time for the logs
         start_time = (time.time() + random.randint(1, 60000)) * 1000
-        # Generate a random number of log entries
-        num_rows = random.randint(5, 15)
+        num_rows = 10
         pod_log = generate_pod_log(pod["name"], start_time, num_rows)
         save_pod_log(pod["name"], pod_log)
 
@@ -142,5 +141,5 @@ if __name__ == "__main__":
     #     pod="bugticketsvc-main-0",
     #     active_at_time="2023-12-21T09:33:16.095364684Z",
     # )
-    # generate_namespace("test-888")
-    print(get_logs("bugticketsvc-main-1", "test-888"))
+    # generate_namespace("test-000")
+    print(get_logs("messengersvc-main-0", "test-000"))
