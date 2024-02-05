@@ -3,7 +3,7 @@ import instructor
 from openai import OpenAI
 from pydantic import Field
 from instructor import OpenAISchema
-from typing import Dict, List
+from typing import Dict, List, Optional
 from enum import Enum
 
 from pafa.simulation.prompt import ReAct_Answer_Prompt, ReAct_Prompt
@@ -26,11 +26,13 @@ def get_pods(namespace: str):
 
 
 def get_logs(pod: str, namespace: str):
+    if namespace == "unknown":
+        return "Namespace is not set."
     try:
         with open(f"simulated/namespaces/{namespace}/{pod}.txt", "r") as log_file:
             return log_file.read()
     except FileNotFoundError:
-        return f"Pod {pod} not found in namespace {namespace}. To change the namespace, use the action get_pods with the new namespace."
+        return f"[ERR] Pod {pod} not found in namespace {namespace}. Check if the provided namespace is correct."
 
 
 class States(Enum):
@@ -44,7 +46,11 @@ class States(Enum):
 
 
 class Thought(OpenAISchema):
-    """Thought schema contains text for the thought and a boolean indicating if the final answer can be reached"""
+    """Thought schema contains text for the thought and a boolean indicating if the final answer can be reached.
+       To find the root cause only consider the log entries to events that happened before the alert was active.
+       Try to find hints in the logs that might indicate that the root cause is in another pod or service.
+       Try to find recent changes in the logs that might indicate the root cause.
+    """
 
     thought: str
     reached_final_answer: bool
@@ -68,7 +74,10 @@ class FinalAnswer(OpenAISchema):
 
 
 class Actions(Enum):
-    """Actions available for the agent."""
+    """Actions available for the agent.
+    get_pods: Change the namespace and list pods with their names, status, restarts, and age
+    get_logs: Get the logs before the alert of a pod in the current namespace. The logs may show that the root cause is in another pod.
+    """
 
     get_pods = "get_pods"
     get_logs = "get_logs"
@@ -76,11 +85,12 @@ class Actions(Enum):
 
 class Action(OpenAISchema):
     """Schema for Action takes the name of the action
-    as action_type and the corresponding parameter as action_parameter
+    as action_type and the namespace. If the action_type is get_logs, it also takes the pod_name.
     """
 
     action_type: Actions
-    action_parameter: str
+    namespace: str
+    pod_name: Optional[str] = None
 
 
 def chat_completion_request(
@@ -170,13 +180,14 @@ def main():
                 completion_cnt += 1
                 # update_usage_stats(action, history, f"action{cnt}", usage_stats)
                 if action.action_type == Actions.get_pods:
-                    namespace = action.action_parameter
-                    history += f"\nAction: get_pods[{action.action_parameter}]"
+                    namespace = action.namespace
+                    history += f"\nAction: get_pods[{action.namespace}]"
                     log_entries = get_pods(namespace)
                     history += f"\nObservation:\n{log_entries}"
                 elif action.action_type == Actions.get_logs:
-                    podname = action.action_parameter
-                    history += f"\nAction: get_logs[{action.action_parameter}]"
+                    podname = action.pod_name
+                    namespace = action.namespace
+                    history += f"\nAction: get_logs[namespace={namespace}, pod={podname}]"
                     log_entries = get_logs(podname, namespace)
                     history += f"\nObservation:\n{log_entries}"
                 current_state = States.OBSERVATION
@@ -197,7 +208,7 @@ def main():
                     json.dump(usage_stats, f, indent=4)
                 break
 
-        
+    print(history)    
 
 if __name__ == "__main__":
     
