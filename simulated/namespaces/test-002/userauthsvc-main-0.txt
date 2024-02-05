@@ -1,0 +1,7 @@
+t=2024-02-06T03:34:49.332543Z level=INFO msg="User launcher registered."
+t=2024-02-06T03:35:49.332543Z level=INFO msg="config: changed cache-service to offline."
+t=2024-02-06T03:42:49.332543Z level=INFO msg="User xXNiceDiceXx registered."
+t=2024-02-06T03:45:49.332543Z level=WARN msg="OAuth-Provider not available. Loading cached user data."
+t=2024-02-06T03:48:49.332543Z level=WARN msg="Could not access cached data."
+t=2024-02-06T03:50:49.332543Z level=INFO msg="West-Europe experiencing problems logging in."
+t=2024-02-06T03:58:49.332543Z level=WARN msg="East-Asia experiencing problems logging in."

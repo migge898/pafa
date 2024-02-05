@@ -1,0 +1,88 @@
+{
+    "services": [
+        {
+            "name": "bugticketsvc-main-0",
+            "ready": "2/2",
+            "status": "Running",
+            "restarts": 0,
+            "age": "9d"
+        },
+        {
+            "name": "bugticketsvc-main-1",
+            "ready": "2/2",
+            "status": "Running",
+            "restarts": 0,
+            "age": "9d"
+        },
+        {
+            "name": "bugticketsvc-main-2",
+            "ready": "2/2",
+            "status": "Running",
+            "restarts": 0,
+            "age": "9d"
+        },
+        {
+            "name": "paymentsvc-main-0",
+            "ready": "3/3",
+            "status": "Running",
+            "restarts": 0,
+            "age": "9d"
+        },
+        {
+            "name": "paymentsvc-main-1",
+            "ready": "1/1",
+            "status": "Running",
+            "restarts": 0,
+            "age": "9d"
+        },
+        {
+            "name": "userauthsvc-main-0",
+            "ready": "4/7",
+            "status": "Running",
+            "restarts": 1,
+            "age": "9d"
+        },
+        {
+            "name": "messengersvc-main-0",
+            "ready": "2/2",
+            "status": "Running",
+            "restarts": 0,
+            "age": "9d"
+        },
+        {
+            "name": "messengersvc-main-1",
+            "ready": "1/1",
+            "status": "Running",
+            "restarts": 0,
+            "age": "9d"
+        },
+        {
+            "name": "messengersvc-main-2",
+            "ready": "1/1",
+            "status": "Running",
+            "restarts": 0,
+            "age": "9d"
+        },
+        {
+            "name": "playerstatssvc-main-0",
+            "ready": "2/2",
+            "status": "Running",
+            "restarts": 0,
+            "age": "9d"
+        },
+        {
+            "name": "playerstatssvc-main-1",
+            "ready": "2/2",
+            "status": "Running",
+            "restarts": 0,
+            "age": "9d"
+        },
+        {
+            "name": "playerstatssvc-main-2",
+            "ready": "2/2",
+            "status": "Running",
+            "restarts": 0,
+            "age": "9d"
+        }
+    ]
+}
