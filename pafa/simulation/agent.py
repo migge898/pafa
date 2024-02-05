@@ -47,9 +47,9 @@ class States(Enum):
 
 class Thought(OpenAISchema):
     """Thought schema contains text for the thought and a boolean indicating if the final answer can be reached.
-       To find the root cause only consider the log entries to events that happened before the alert was active.
-       Try to find hints in the logs that might indicate that the root cause is in another pod or service.
-       Try to find recent changes in the logs that might indicate the root cause.
+    To find the root cause only consider the log entries to events that happened before the alert was active.
+    Try to find hints in the logs that might indicate that the root cause is in another pod or service.
+    Try to find recent changes in the logs that might indicate the root cause.
     """
 
     thought: str
@@ -98,8 +98,8 @@ def chat_completion_request(
     system_prompt: str = ReAct_Prompt,
     model: str = "gpt-3.5-turbo",
     response_model: OpenAISchema = None,
-    seed = 42069,
-    max_retries = 2,
+    seed=42069,
+    max_retries=2,
 ):
     user_message = {
         "role": "user",
@@ -121,95 +121,107 @@ def chat_completion_request(
         seed=seed,
     )
 
+
 def read_alert(alertname: str):
     with open(f"simulated/alerts/{alertname}.json", "r") as alert_file:
         return json.load(alert_file)
 
-def update_usage_stats(
-    resp: OpenAISchema, history: str, call_id: str, usage_stats: Dict
-):
+
+def get_total_tokens(resp: OpenAISchema):
     raw_resonse = resp._raw_response.usage
-    if call_id not in usage_stats:
-        usage_stats[call_id] = {}
-        usage_stats[call_id]["history"] = history
-        usage_stats[call_id]["input_token"] = raw_resonse.prompt_tokens
-        usage_stats[call_id]["output_token"] = raw_resonse.completion_tokens
-        usage_stats[call_id]["total_tokens"] = raw_resonse.total_tokens
+    return raw_resonse.total_tokens
 
-    # cost calculation from https://openai.com/pricing using gpt-3.5-turbo-1106
-    usage_stats["total_input_tokens"] = sum(
-        [usage_stats[call_id]["input_token"] for call_id in usage_stats]
-    )
-    usage_stats["total_output_tokens"] = sum(
-        [usage_stats[call_id]["output_token"] for call_id in usage_stats]
-    )
-    usage_stats["total_tokens"] = sum(
-        [usage_stats[call_id]["total_tokens"] for call_id in usage_stats]
-    )
-    usage_stats["estimated_cost_dollar"] = (
-        usage_stats["total_input_tokens"] * 0.0010
-        + usage_stats["total_output_tokens"] * 0.002
-    )
 
-def main():
+def agent(
+    id: str, alertname: str = "BugTicketServiceOverloaded", model: str = "gpt-3.5-turbo"
+):
+    result = {
+        "id": id,
+        "results": {
+            "root_cause_pred": None,
+            "solution_pred": None,
+            "evidence_pred": None,
+            "tokens": 0,
+            "error": None,
+            "completion_cnt": 0,
+        },
+    }
+    error = "No error"
+    tokencount = 0
     current_state = States.QUESTION
-    alert = read_alert("BugTicketServiceOverloaded")
+    alert = read_alert(alertname)
     history = """"""
-    question = "Question: What is the root cause and a possible solution for this alert:\n`" + json.dumps(alert, indent=4) + "`"
+    question = (
+        "Question: What is the root cause and a possible solution for this alert:\n`"
+        + json.dumps(alert, indent=4)
+        + "`"
+    )
     completion_cnt = 0
     usage_stats = {}
     namespace = "unknown"
-    while completion_cnt < 10:
-        print(f"Current State: {current_state}, Count: {completion_cnt}")
-        match current_state:
-            case States.QUESTION:
-                history += f"Question: `{question}`"
-                current_state = States.THOUGHT
-            case States.THOUGHT:
-                thought: Thought = chat_completion_request(history, response_model=Thought)
-                completion_cnt += 1
-                # update_usage_stats(thought, history, f"thought{cnt}", usage_stats)
-                if thought.reached_final_answer:
-                    history += f"\nThought: {thought.thought}\nFinal Answer: True"
-                    current_state = States.FINAL_ANSWER
-                else:
-                    history += f"\nThought: {thought.thought}"
-                    current_state = States.ACTION
-            case States.ACTION:
-                action: Action = chat_completion_request(history, response_model=Action)
-                completion_cnt += 1
-                # update_usage_stats(action, history, f"action{cnt}", usage_stats)
-                if action.action_type == Actions.get_pods:
-                    namespace = action.namespace
-                    history += f"\nAction: get_pods[{action.namespace}]"
-                    log_entries = get_pods(namespace)
-                    history += f"\nObservation:\n{log_entries}"
-                elif action.action_type == Actions.get_logs:
-                    podname = action.pod_name
-                    namespace = action.namespace
-                    history += f"\nAction: get_logs[namespace={namespace}, pod={podname}]"
-                    log_entries = get_logs(podname, namespace)
-                    history += f"\nObservation:\n{log_entries}"
-                current_state = States.OBSERVATION
-            case States.OBSERVATION:
-                current_state = States.THOUGHT
-            case States.FINAL_ANSWER:
-                final_answer: FinalAnswer = chat_completion_request(
-                    history, response_model=FinalAnswer, system_prompt=ReAct_Answer_Prompt
-                )
-                completion_cnt += 1
-                # update_usage_stats(final_answer, history, f"final_answer{cnt}", usage_stats)
-                print(f"History:\n{history}")
-                print(f"Final Answer:\n")
-                print("Root Cause:", final_answer.root_cause)
-                print("Solution:", final_answer.solution)
-                print("Evidence:", final_answer.evidence)
-                with open("usage_stats.json", "w") as f:
-                    json.dump(usage_stats, f, indent=4)
-                break
+    try:
+        while completion_cnt < 10:
+            print(f"Current State: {current_state}, Count: {completion_cnt}")
+            match current_state:
+                case States.QUESTION:
+                    history += f"Question: `{question}`"
+                    current_state = States.THOUGHT
+                case States.THOUGHT:
+                    thought: Thought = chat_completion_request(
+                        history, response_model=Thought, model=model
+                    )
+                    completion_cnt += 1
+                    tokencount += get_total_tokens(thought)
+                    if thought.reached_final_answer:
+                        history += f"\nThought: {thought.thought}\nFinal Answer: True"
+                        current_state = States.FINAL_ANSWER
+                    else:
+                        history += f"\nThought: {thought.thought}"
+                        current_state = States.ACTION
+                case States.ACTION:
+                    action: Action = chat_completion_request(history, response_model=Action)
+                    tokencount += get_total_tokens(action)
+                    completion_cnt += 1
+                    if action.action_type == Actions.get_pods:
+                        namespace = action.namespace
+                        history += f"\nAction: get_pods[{action.namespace}]"
+                        log_entries = get_pods(namespace)
+                        history += f"\nObservation:\n{log_entries}"
+                    elif action.action_type == Actions.get_logs:
+                        podname = action.pod_name
+                        namespace = action.namespace
+                        history += (
+                            f"\nAction: get_logs[namespace={namespace}, pod={podname}]"
+                        )
+                        log_entries = get_logs(podname, namespace)
+                        history += f"\nObservation:\n{log_entries}"
+                    current_state = States.OBSERVATION
+                case States.OBSERVATION:
+                    current_state = States.THOUGHT
+                case States.FINAL_ANSWER:
+                    break
+        if current_state != States.FINAL_ANSWER:
+            error = "Final answer not reached"
+        final_answer: FinalAnswer = chat_completion_request(
+            history,
+            response_model=FinalAnswer,
+            system_prompt=ReAct_Answer_Prompt,
+            model=model,
+        )
+        tokencount += get_total_tokens(final_answer)
+        completion_cnt += 1
+    except Exception as e:
+        error = str(e)
+    print("Finished with id:", id)
+    result["results"]["root_cause_pred"] = final_answer.root_cause
+    result["results"]["solution_pred"] = final_answer.solution
+    result["results"]["evidence_pred"] = final_answer.evidence
+    result["results"]["tokens"] = tokencount
+    result["results"]["error"] = error
+    result["results"]["completion_cnt"] = completion_cnt
 
-    print(history)    
+    return result, history
 
 if __name__ == "__main__":
-    
-    main()
+
+    agent()
