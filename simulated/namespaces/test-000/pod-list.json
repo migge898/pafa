@@ -9,7 +9,7 @@
         },
         {
             "name": "bugticketsvc-main-1",
-            "ready": "2/2",
+            "ready": "1/2",
             "status": "Running",
             "restarts": 0,
             "age": "9d"
@@ -23,8 +23,8 @@
         },
         {
             "name": "paymentsvc-main-0",
-            "ready": "3/3",
-            "status": "Running",
+            "ready": "0/3",
+            "status": "Failed",
             "restarts": 0,
             "age": "9d"
         },
