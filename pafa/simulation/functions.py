@@ -89,11 +89,14 @@ def generate_namespace(namespace: str, pod_list: dict = DEFAULT_POD_LIST):
     def init_namespace():
 
         # generate dir
-        os.makedirs(f"simulated/namespaces/{namespace}", exist_ok=False)
-        with open(
-            f"simulated/namespaces/{namespace}/pod-list.json", "w"
-        ) as namespace_file:
-            json.dump(pod_list, namespace_file, indent=4)
+        try:
+            os.makedirs(f"simulated/namespaces/{namespace}", exist_ok=False)
+            with open(
+                f"simulated/namespaces/{namespace}/pod-list.json", "w"
+            ) as namespace_file:
+                json.dump(pod_list, namespace_file, indent=4)
+        except FileExistsError:
+            print(f"Namespace {namespace} already exists.")
 
     def save_pod_log(pod: str, log: list[str]):
         with open(f"simulated/namespaces/{namespace}/{pod}.txt", "w") as log_file:
