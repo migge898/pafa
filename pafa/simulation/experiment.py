@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 
 from pafa.simulation.functions import generate_alert, generate_namespace
@@ -8,8 +9,7 @@ def init_namespaces():
     generate_namespace("test-002")
     generate_namespace("test-003")
     generate_namespace("test-004")
-    generate_namespace("test-005")
-    pass
+    
 def init_alerts():
     pairs = []
     pairs.append(("bug_s1", "BugTicketServiceOverloaded"))
@@ -191,11 +191,52 @@ def init_alerts():
 
     return pairs
 
+def m_print(text: str, max_length: int = 100):
+    # print text to maximum length. If text is longer print word in new line
+    text = text.split(" ")
+    line = ""
+    for word in text:
+        if len(line) + len(word) > max_length:
+            print(line)
+            line = ""
+        line += word + " "
+    print(line)
 
-def init_data():
-    # a pandas dataframe is initialized with the data from the csv file
-    pass
+def add_scores(dataframe: pd.DataFrame):
+    dataframe["score_rc"] = 0
+    dataframe["score_s"] = 0
+    dataframe["score_e"] = 0
+    
+    for index, row in dataframe.iterrows():
+         #clear terminal
+        os.system('cls' if os.name == 'nt' else 'clear')
+        
+        print(f"ID: {row['id']}")
+        print(f"\nAlert: {row['alertname']}")
+        print(f"\nRoot cause\n{row['root_cause_real']}")
+        print(f"\nSolution\n{row['solution_real']}")
+        m_print(f"\nPredicted root cause\n{row['root_cause_pred']}")
+        m_print(f"\nPredicted solution\n{row['solution_pred']}")
+        m_print(f"\nPredicted evidence\n{row['evidence_pred']}")
+        print(f"\nError: {row['error']}")
+
+        # get the 3 additional scores per user input and insert them into the dataframe
+        score_rc = int(input("Score for root cause: "))
+        score_s = int(input("Score for solution: "))
+        score_e = int(input("Score for evidence: "))
+        score = 0.5 * score_rc + 0.3 * score_s + 0.2 * score_e
+        dataframe.loc[index, "score_rc"] = score_rc
+        dataframe.loc[index, "score_s"] = score_s
+        dataframe.loc[index, "score_e"] = score_e
+        dataframe.loc[index, "score"] = score
+
+    return dataframe
 
 if __name__ == "__main__":
-    init_namespaces()
-    pass
+    # df_3 = pd.read_csv('experiment_data/gpt-3.5-turbo.csv')
+
+    # df_3 = add_scores(df_3)
+    # df_3.to_csv('experiment_data/scored_gpt-3.5-turbo.csv')
+    df_4 = pd.read_csv('experiment_data/gpt-4-turbo-preview.csv')
+    df_4 = add_scores(df_4)
+    df_4.to_csv('experiment_data/scored_gpt-4-turbo-preview.csv')
