@@ -1,0 +1,22 @@
+id,alertname,difficulty,root_cause_real,solution_real,evidence_real,root_cause_pred,solution_pred,evidence_pred,tokens,completion_cnt,error,score
+"bug_l1",,"easy","Reopen ticket config changed.","Change reopen ticket config","todo","","","",0,0,"No error",0
+"bug_l2",,"easy","Tag got ignored.","Assign people to this tag","todo","","","",0,0,"No error",0
+"bug_l3",,"easy","Missconf in paymentsvc.","Change conf in paymentsvc","todo","","","",0,0,"No error",0
+"bug_s1",,"difficult",,,,,,,,,"todo"
+"bug_s2",,"difficult",,,,,,,,,"todo"
+"bug_s3",,"difficult",,,,,,,,,"todo"
+"bug_s4",,"difficult",,,,,,,,,"todo"
+"pay_l1",,"easy","Payment gateway down","Check payment gateway","todo",,,,,,
+"pay_l2",,"easy","Payment gateway down","Check payment gateway","todo",,,,,,
+"pay_s1",,"difficult",,,,,,,,,"todo"
+"pay_s2",,"difficult",,,,,,,,,"todo"
+"auth_l1",,"easy","Auth service down","Check auth service","todo",,,,,,
+"auth_l2",,"easy","Auth service down","Check auth service","todo",,,,,,
+"msg_l1",,"easy","Message service down","Check message service","todo",,,,,,
+"msg_l2",,"easy","Message service down","Check message service","todo",,,,,,
+"msg_s1",,"difficult",,,,,,,,,"todo"
+"msg_s2",,"difficult",,,,,,,,,"todo"
+"play_l1",,"easy","Play service down","Check play service","todo",,,,,,
+"play_l2",,"easy","Play service down","Check play service","todo",,,,,,
+"play_s1",,"difficult",,,,,,,,,"todo"
+"play_s2",,"difficult",,,,,,,,,"todo"
