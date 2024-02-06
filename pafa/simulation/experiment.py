@@ -3,7 +3,6 @@ import pandas as pd
 from pafa.simulation.functions import generate_alert, generate_namespace
 
 def init_namespaces():
-    # generate the 19 additional alerts
     # generate needed namespaces
     generate_namespace("test-001")
     generate_namespace("test-002")
@@ -63,6 +62,20 @@ def init_alerts():
         pod="paymentsvc-main-0",
         active_at_time="2024-02-05T22:57:37.332298Z"
     )
+    generate_alert(
+        description="No transactions from America-North in last 30 minutes.",
+        alertname="NoTransactionsFromRegion",
+        namespace="test-003",
+        pod="paymentsvc-main-0",
+        active_at_time="2024-02-06T12:00:51.333993Z"
+    )
+    generate_alert(
+        description="More than 500 payments refunded in last 30 minutes.",
+        alertname="RefundSpam",
+        namespace="test-003",
+        pod="paymentsvc-main-1",
+        active_at_time="2024-02-05T20:46:16.334115Z"
+    )
     # alerts for userauthsvc
     generate_alert(
         description="UserAuthService offline in namespace test-002.",
@@ -100,6 +113,13 @@ def init_alerts():
         pod="messengersvc-main-2",
         active_at_time="2024-02-06T03:32:32.334591Z"
     )
+    generate_alert(
+        description="Messengerservice received messages below 30% of the average.",
+        alertname="MessagesBelowAverage",
+        namespace="test-004",
+        pod="messengersvc-main-0",
+        active_at_time="2024-02-05T21:37:21.336132Z"
+    )
     # alerts for playerstatssvc
     generate_alert(
         description="Failed to load statistcs.",
@@ -109,11 +129,25 @@ def init_alerts():
         active_at_time="2024-02-06T10:33:38.333018Z"
     )
     generate_alert(
+        description="Too many players affected by configuration change.",
+        alertname="TooManyPlayersAffected",
+        namespace="test-004",
+        pod="playerstatssvc-main-0",
+        active_at_time="2024-02-06T04:45:45.336485Z"
+    )
+    generate_alert(
         description="PlayerStatsService in namespace test-002 is down.",
         alertname="PlayerStatsServiceDown",
         namespace="test-002",
         pod="playerstatssvc-main-2",
         active_at_time="2024-02-06T02:42:57.333252Z"
+    )
+    generate_alert(
+        description="Users checked stats below 30% of the average.",
+        alertname="StatsCheckBelowAverage",
+        namespace="test-002",
+        pod="playerstatssvc-main-1",
+        active_at_time="2024-02-06T06:18:17.333135Z"
     )
 
 
