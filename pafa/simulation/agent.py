@@ -157,7 +157,6 @@ def agent(
         + "`"
     )
     completion_cnt = 0
-    usage_stats = {}
     namespace = "unknown"
     try:
         while completion_cnt < 10:
