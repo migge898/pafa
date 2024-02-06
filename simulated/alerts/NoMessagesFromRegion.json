@@ -1,0 +1,12 @@
+{
+    "labels": {
+        "alertname": "NoMessagesFromRegion",
+        "severity": "critical",
+        "pod": "messengersvc-main-2",
+        "namespace": "test-003"
+    },
+    "annotations": {
+        "description": "No messages received from region: America-North in last 60 minutes."
+    },
+    "activeAt": "2024-02-06T03:32:32.334591Z"
+}

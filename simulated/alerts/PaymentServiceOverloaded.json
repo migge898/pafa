@@ -1,0 +1,12 @@
+{
+    "labels": {
+        "alertname": "PaymentServiceOverloaded",
+        "severity": "critical",
+        "pod": "paymentsvc-main-0",
+        "namespace": "test-002"
+    },
+    "annotations": {
+        "description": "PaymentService in namespace test-001 is using 70% of CPU."
+    },
+    "activeAt": "2024-02-05T22:57:37.332298Z"
+}

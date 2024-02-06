@@ -1,0 +1,12 @@
+{
+    "labels": {
+        "alertname": "MessageSpam",
+        "severity": "critical",
+        "pod": "messengersvc-main-1",
+        "namespace": "test-003"
+    },
+    "annotations": {
+        "description": "More than 5 broadcasts with the same message were sent in last 30 minutes."
+    },
+    "activeAt": "2024-02-06T08:10:02.334472Z"
+}

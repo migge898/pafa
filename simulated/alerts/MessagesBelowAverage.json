@@ -1,0 +1,12 @@
+{
+    "labels": {
+        "alertname": "MessagesBelowAverage",
+        "severity": "critical",
+        "pod": "messengersvc-main-0",
+        "namespace": "test-004"
+    },
+    "annotations": {
+        "description": "Messengerservice received messages below 30% of the average."
+    },
+    "activeAt": "2024-02-05T21:37:21.336132Z"
+}

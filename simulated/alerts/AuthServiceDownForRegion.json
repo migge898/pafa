@@ -1,0 +1,12 @@
+{
+    "labels": {
+        "alertname": "AuthServiceDownForRegion",
+        "severity": "critical",
+        "pod": "userauthsvc-main-0",
+        "namespace": "test-003"
+    },
+    "annotations": {
+        "description": "More than 20000 users of America-North cannot login."
+    },
+    "activeAt": "2024-02-05T23:45:53.334234Z"
+}

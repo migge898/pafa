@@ -1,0 +1,12 @@
+{
+    "labels": {
+        "alertname": "RefundSpam",
+        "severity": "critical",
+        "pod": "paymentsvc-main-1",
+        "namespace": "test-003"
+    },
+    "annotations": {
+        "description": "More than 500 payments refunded in last 30 minutes."
+    },
+    "activeAt": "2024-02-05T20:46:16.334115Z"
+}

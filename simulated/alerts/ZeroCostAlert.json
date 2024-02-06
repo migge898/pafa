@@ -1,0 +1,12 @@
+{
+    "labels": {
+        "alertname": "ZeroCostAlert",
+        "severity": "critical",
+        "pod": "messengersvc-main-0",
+        "namespace": "test-003"
+    },
+    "annotations": {
+        "description": "Last broadcast message promoted item for 0$"
+    },
+    "activeAt": "2024-02-05T22:50:27.334353Z"
+}

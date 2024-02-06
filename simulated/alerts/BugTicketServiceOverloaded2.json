@@ -1,0 +1,12 @@
+{
+    "labels": {
+        "alertname": "BugTicketServiceOverloaded2",
+        "severity": "critical",
+        "pod": "bugticketsvc-main-1",
+        "namespace": "test-001"
+    },
+    "annotations": {
+        "description": "BugTicketservice in namespace test-001 is using 90% of CPU."
+    },
+    "activeAt": "2024-02-06T11:09:02.330354Z"
+}

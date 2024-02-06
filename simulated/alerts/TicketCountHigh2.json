@@ -1,0 +1,12 @@
+{
+    "labels": {
+        "alertname": "TicketCountHigh2",
+        "severity": "critical",
+        "pod": "bugticketsvc-main-1",
+        "namespace": "test-002"
+    },
+    "annotations": {
+        "description": "BugTicketservice has exceeded 300 open tickets."
+    },
+    "activeAt": "2024-02-06T08:40:06.331935Z"
+}

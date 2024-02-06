@@ -1,0 +1,12 @@
+{
+    "labels": {
+        "alertname": "PlayerStatsMissing",
+        "severity": "critical",
+        "pod": "playerstatssvc-main-0",
+        "namespace": "test-002"
+    },
+    "annotations": {
+        "description": "Failed to load some statistics."
+    },
+    "activeAt": "2024-02-06T10:33:38.333018Z"
+}

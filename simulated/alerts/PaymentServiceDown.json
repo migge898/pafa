@@ -1,0 +1,12 @@
+{
+    "labels": {
+        "alertname": "PaymentServiceDown",
+        "severity": "critical",
+        "pod": "paymentsvc-main-0",
+        "namespace": "test-000"
+    },
+    "annotations": {
+        "description": "PaymentService in namespace test-000 not available."
+    },
+    "activeAt": "2024-02-04T19:22:47.862156Z"
+}
