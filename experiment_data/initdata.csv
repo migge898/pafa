@@ -1,21 +1,21 @@
 id,alertname,difficulty,root_cause_real,solution_real,evidence_real,root_cause_pred,solution_pred,evidence_pred,tokens,completion_cnt,error,score
-"bug_l1",,"easy","Reopen ticket config changed.","Change reopen ticket config","todo","","","",0,0,"No error",0
-"bug_l2",,"easy","Tag got ignored.","Assign people to this tag","todo","","","",0,0,"No error",0
-"bug_s1",,"difficult","Missconf in paymentsvc.","Change conf in paymentsvc","todo","","","",0,0,"No error",0
-"bug_s2",,"difficult","Missconf in playerstatsvc.","Change conf in playerstatsvc","todo","","","",0,0,"No error",0
-"bug_s3",,"difficult","Missconf in userauthscv.","Change conf in userauthscv","todo","","","",0,0,"No error",0
-"bug_s4",,"difficult","Missconf in messengersvc.","Change conf in messengersvc","todo","","","",0,0,"No error",0
-"pay_l1",,"easy","Missconf payment svc.","Change conf in payment svc","todo","","","",0,0,"No error",0
-"pay_l2",,"easy","Third-party svc down","Enbale Cache","todo","","","",0,0,"No error",0
-"pay_s1",,"difficult","Userauth problems","Check userauth service","todo","","","",0,0,"No error",0
-"pay_s2",,"difficult","Negative item value in messengersc.","Change item value to 10","todo","","","",0,0,"No error",0
-"auth_l1",,"easy","Missconfigured expiration date of certificate of region","Change expiration date of certificate","todo","","","",0,0,"No error",0
-"auth_l2",,"easy","OAuth failed","Enable cache","todo","","","",0,0,"No error",0
-"msg_l1",,"easy","Broadcast with 0 cost item","Change cost to 10","todo","","","",0,0,"No error",0
-"msg_l2",,"easy","Message spam due to wrong resend value","Change resend value.","todo","","","",0,0,"No error",0
-"msg_s1",,"difficult","To few messages due to playerstats problems","Check playerstats service","todo","","","",0,0,"No error",0
-"msg_s2",,"difficult,"Userauth problems","Check userauth service","todo","","","",0,0,"No error",0
-"play_l1",,"easy","Missconf in playerstatsvc.","Change db config","todo",,,,,,
-"play_l2",,"easy","Config change affected too many players","Change config","todo",,,,,,
-"play_s1",,"difficult","Paymentsvc failed","Check paymentsvc","todo",,,,,,
-"play_s2",,"difficult","Userauth problems","Check userauth service","todo",,,,,,
+"bug_l1",BugTicketServiceOverloaded2,"easy","Reopen ticket config changed.","Change reopen ticket config","todo","","","",0,0,"No error",0
+"bug_l2",TicketCountHigh,"easy","Tag got ignored.","Assign people to this tag","todo","","","",0,0,"No error",0
+"bug_s1",BugTicketServiceOverloaded,"difficult","Missconf in paymentsvc.","Change conf in paymentsvc","todo","","","",0,0,"No error",0
+"bug_s2",TicketCountHigh2,"difficult","Missconf in playerstatsvc.","Change conf in playerstatsvc","todo","","","",0,0,"No error",0
+"bug_s3",BugTicketServiceOverloaded3,"difficult","Missconf in userauthscv.","Change conf in userauthscv","todo","","","",0,0,"No error",0
+"bug_s4",TicketCountHigh3,"difficult","Missconf in messengersvc.","Change conf in messengersvc","todo","","","",0,0,"No error",0
+"pay_l1",PaymentServiceDown,"easy","Missconf payment svc.","Change conf in payment svc","todo","","","",0,0,"No error",0
+"pay_l2",PaymentServiceOverloaded,"easy","Third-party svc down","Enbale Cache","todo","","","",0,0,"No error",0
+"pay_s1",NoTransactionsFromRegion,"difficult","Userauth problems","Check userauth service","todo","","","",0,0,"No error",0
+"pay_s2",RefundSpam,"difficult","Negative item value in messengersc.","Change item value to 10","todo","","","",0,0,"No error",0
+"auth_l1",AuthServiceDownForRegion,"easy","Missconfigured expiration date of certificate of region","Change expiration date of certificate","todo","","","",0,0,"No error",0
+"auth_l2",UserAuthServiceDown,"easy","OAuth failed","Enable cache","todo","","","",0,0,"No error",0
+"msg_l1",ZeroCostAlert,"easy","Broadcast with 0 cost item","Change cost to 10","todo","","","",0,0,"No error",0
+"msg_l2",MessageSpam,"easy","Message spam due to wrong resend value","Change resend value.","todo","","","",0,0,"No error",0
+"msg_s1",MessagesBelowAverage,"difficult","To few messages due to playerstats problems","Check playerstats service","todo","","","",0,0,"No error",0
+"msg_s2",NoMessagesFromRegion,"difficult","Userauth problems","Check userauth service","todo","","","",0,0,"No error",0
+"play_l1",PlayerStatsServiceDown,"easy","Missconf in playerstatsvc.","Change db config","todo","","","",0,0,"No error",0
+"play_l2",TooManyPlayersAffected,"easy","Config change affected too many players","Change config","todo","","","",0,0,"No error",0
+"play_s1",PlayerStatsMissing,"difficult","Paymentsvc failed","Check paymentsvc","todo","","","",0,0,"No error",0
+"play_s2",StatsCheckBelowAverage,"difficult","Userauth problems","Check userauth service","todo","","","",0,0,"No error",0
