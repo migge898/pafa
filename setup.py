@@ -10,7 +10,7 @@ with open("README.md") as f:
 
 setup(
     name="pafa",
-    version="0.1.0",
+    version="1.0.0",
     description="Python app for bachelor thesis at TH Bingen.",
     long_description=readme,
     author="Miguel Mioskowski",

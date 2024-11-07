@@ -24,6 +24,15 @@ t=2024-02-04T19:14:47.862156Z level=WARN msg="CPU usage of this pod over 40%."
 t=2024-02-04T19:15:47.862156Z level=WARN msg="100000 new open tickets for tag: messengersvc"
 t=2024-02-04T19:18:47.862156Z level=WARN msg="4 tickets with tag launcher have not been resolved for more than 3 days:"
 Thought: Looking at the logs, I can see that many new tickets are open for tag "messengerscv" and the CPU goes higher shortly after. So there might be a problem with a messengersvc pod. I will look at the pods to see abnormal behavior.
+Action: get_logs["messengersvc-main-1"]Action: get_logs["prod-123","bugticketsvc-main-1"]
+Observation:
+(...)
+t=2024-02-04T19:13:47.862156Z level=INFO msg="100000 new open tickets for tag: messengersvc"
+t=2024-02-04T19:14:47.862156Z level=WARN msg="CPU usage of this pod over 40%."
+t=2024-02-04T19:15:47.862156Z level=INFO msg="100000 new open tickets for tag: messengersvc"
+t=2024-02-04T19:18:47.862156Z level=WARN msg="4 tickets with tag launcher have not been resolved for more than 3 days:"
+t=2024-02-04T19:22:47.862156Z level=WARN msg="CPU usage of this pod over 90%."
+Thought: Looking at the logs, I can see that many new tickets are open for tag "messengerscv". The next log entry shows that the CPU usage has increased to 40%. And it continues until 90% CPU usage is reached. So there might be a problem with the messengersvc pod that results in high CPU usage here. Also looking at the pods from before I can see that the pod "messengersvc-main-1" is in a failed state. So the root cause might be to find in its logs.
 Action: get_pods["prod-123"]
 Observation: 
 Name                   Ready    Status      Restarts  Age

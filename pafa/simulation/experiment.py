@@ -233,10 +233,11 @@ def add_scores(dataframe: pd.DataFrame):
     return dataframe
 
 if __name__ == "__main__":
+    pass
     # df_3 = pd.read_csv('experiment_data/gpt-3.5-turbo.csv')
 
     # df_3 = add_scores(df_3)
     # df_3.to_csv('experiment_data/scored_gpt-3.5-turbo.csv')
-    df_4 = pd.read_csv('experiment_data/gpt-4-turbo-preview.csv')
-    df_4 = add_scores(df_4)
-    df_4.to_csv('experiment_data/scored_gpt-4-turbo-preview.csv')
+    # df_4 = pd.read_csv('experiment_data/gpt-4-turbo-preview.csv')
+    # df_4 = add_scores(df_4)
+    # df_4.to_csv('experiment_data/scored_gpt-4-turbo-preview.csv')
