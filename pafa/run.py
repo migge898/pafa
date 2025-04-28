@@ -23,7 +23,7 @@ def respond():
 
 if __name__ == '__main__':
 
-    # message = pymsteams.connectorcard("https://evoilade.webhook.office.com/webhookb2/03f3c5a1-ce75-4979-b78a-6ab9c7555521@a65e9058-ba4d-481d-b114-5eba2e0684e2/IncomingWebhook/64e1276c26bc4a3d9b83f1d5dfca7afa/bc610f64-2f72-48a6-ab4a-44c8053fa395")
+    # message = ""
     # message.text("Hello reality!")
 
     # # send webhook
